@@ -43,12 +43,12 @@ export default function App() {
     six_days: "transformer_model_6days",
     seven_days: "transformer_model_7days",
   };
-
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
   // Fetch model info once on mount
   useEffect(() => {
     async function fetchModelInfo() {
       try {
-        const res = await fetch("http://localhost:8000/model_info");
+        const res = await fetch(`${BASE_URL}/model_info`);
         if (!res.ok) throw new Error("Failed to fetch model info");
         const json = await res.json();
         setModelInfoMap(json);
@@ -64,7 +64,7 @@ export default function App() {
   useEffect(() => {
     async function fetchModelMetrics() {
       try {
-        const res = await fetch("http://localhost:8000/model_metrics");
+        const res = await fetch(`${BASE_URL}/model_metrics`);
         if (!res.ok) throw new Error("Failed to fetch model metrics");
         const json = await res.json();
         setModelMetricsMap(json);
@@ -83,12 +83,12 @@ export default function App() {
       setError(null);
       try {
         // Fetch actual last 7 days
-        const resActual = await fetch("http://localhost:8000/fetch_last_seven_days");
+        const resActual = await fetch(`${BASE_URL}/fetch_last_seven_days`);
         if (!resActual.ok) throw new Error("Failed to fetch actual data");
         const jsonActual = await resActual.json();
 
         // Fetch predicted data for selected model
-        const resPred = await fetch(`http://localhost:8000/predict/${selectedModel}`);
+        const resPred = await fetch(`${BASE_URL}/predict/${selectedModel}`);
         if (!resPred.ok) throw new Error("Failed to fetch predicted data");
         const jsonPred = await resPred.json();
 
